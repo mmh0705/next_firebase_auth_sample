@@ -6,7 +6,9 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 import TextField from '@mui/material/TextField';
-import { useEffect } from "react";
+import Button from '@mui/material/Button';
+
+import { useEffect, useState } from "react";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,10 +24,15 @@ const firebaseConfig = {
 };
 
 
-
-
-
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSiginIn, setIsSignIn] = useState(true);
+  
+  const onToggle = () => {
+    setIsSignIn(!isSiginIn);
+  }
+
   const signUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -49,11 +56,26 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div>
-        <div>
-          Hello World
+      <div style={{ border:'1px solid black', borderRadius:'5px', paddingTop:'40px', paddingBottom:'40px', 
+        paddingLeft:'70px',
+        paddingRight:'70px'}}>
+        <div style={{display:'flex', justifyContent:'center', alignItems:'center', fontSize:'20px'}}>
+          회원가입
         </div>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <div style={{height:'50px'}}></div>
+        <TextField id="outlined-basic" label="이메일" variant="outlined" color="warning"/>
+        
+        <div style={{height:'20px'}}></div>
+        <TextField id="outlined-basic" label="비밀번호" variant="outlined" color="warning"/>
+        
+        <div style={{height:'50px'}}></div>
+        <Button variant="contained" fullWidth>회원가입</Button>
+        
+        <div style={{height:'50px'}}></div>
+        {isSiginIn ? 
+        <Button variant="contained" fullWidth onClick={onToggle}>회원가입 하기</Button>
+        : <Button variant="contained" fullWidth onClick={onToggle}>로그인 하기</Button>}
+
       </div>
     </main>
   );
